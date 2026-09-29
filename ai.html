@@ -3,9 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Yavuz Arslan — research on the economics of AI: measurement, labour-market incidence, credit, household behaviour, and competition.">
+  <meta name="description" content="Yavuz Arslan — research on the economics of AI. Working notes: where is AI showing up in the data? Credit, jobs, wages, time use, education choices and prices.">
+  <meta property="og:title" content="Where is AI showing up in the data? — Yavuz Arslan">
+  <meta property="og:description" content="Working notes from an ongoing project: one persistent signal in mortgage refinancing, and mostly “not yet” everywhere else.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yavuzarslan.org/ai.html">
   <title>AI and Its Economic Impact — Yavuz Arslan</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== NOTES (AI page) ===== */
+    main > p.bio { margin-bottom: 0.8rem; }
+    .note { margin-top: 1.2rem; }
+    .note-kicker {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent-dim); margin-bottom: 0.2rem;
+    }
+    .note-title {
+      font-family: var(--font-display); font-size: 1.9rem; font-weight: 600;
+      line-height: 1.2; color: var(--text-primary); margin: 0 0 0.9rem;
+    }
+    .note p, .note li { font-size: 0.97rem; color: var(--text-secondary); line-height: 1.8; }
+    .note p { margin-bottom: 1rem; }
+    .note p.note-lede { font-size: 1.05rem; color: var(--text-primary); }
+    .note strong { color: var(--text-primary); font-weight: 600; }
+    .note em { font-style: italic; }
+    .note h4 {
+      font-family: var(--font-display); font-size: 1.3rem; font-weight: 600;
+      color: var(--text-primary); margin: 2.2rem 0 0.6rem; scroll-margin-top: 72px;
+    }
+    .note ul { margin: 0 0 1.1rem 1.2rem; }
+    .note li { margin-bottom: 0.55rem; padding-left: 0.2rem; }
+    .note li::marker { color: var(--accent-dim); }
+    .note-toc {
+      font-size: 0.85rem; color: var(--text-muted); margin: 0 0 1.6rem;
+      padding: 0.7rem 0.9rem; background: var(--bg-secondary); border-radius: 4px;
+      border-left: 2px solid var(--accent-dim); line-height: 1.9;
+    }
+    .note-toc a { white-space: nowrap; }
+    .note-foot {
+      font-size: 0.85rem !important; color: var(--text-muted) !important;
+      border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.9rem; margin-top: 1.6rem;
+    }
+
+    /* Chart */
+    .note-chart {
+      margin: 1.6rem 0 1.4rem; padding: 1.1rem 1.1rem 0.8rem;
+      background: var(--bg-secondary); border-radius: 6px; position: relative;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .note-chart .chart-title { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+    .note-chart .chart-sub { font-size: 0.8rem; color: var(--text-secondary); margin: 0.15rem 0 0.6rem; line-height: 1.5; }
+    .note-chart .chart-plot { width: 100%; }
+    .note-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .note-chart svg text { font-family: var(--font-body); font-variant-numeric: tabular-nums; }
+    .note-chart .pt:focus { outline: none; }
+    .note-chart .pt:focus .ring, .note-chart .pt:hover .ring { stroke: var(--accent); }
+    .chart-tip {
+      position: absolute; pointer-events: none; z-index: 5;
+      background: #0f1218; border: 1px solid var(--divider); border-radius: 4px;
+      padding: 0.4rem 0.6rem; font-size: 0.78rem; line-height: 1.45;
+      color: var(--text-primary); white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+    .chart-tip .tip-muted { color: var(--text-secondary); }
+    .note-chart figcaption { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-top: 0.5rem; }
+    .note details { margin-top: 0.6rem; }
+    .note summary {
+      font-size: 0.8rem; color: var(--text-muted); cursor: pointer; display: inline-block;
+      border: 1px solid rgba(255,255,255,0.06); padding: 0.2rem 0.6rem; border-radius: 3px;
+    }
+    .note summary:hover { color: var(--accent); border-color: var(--divider); }
+    .num-table { border-collapse: collapse; margin-top: 0.6rem; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+    .num-table th, .num-table td { padding: 0.25rem 0.9rem 0.25rem 0; text-align: right; color: var(--text-secondary); }
+    .num-table th { font-weight: 600; color: var(--text-primary); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .num-table th:first-child, .num-table td:first-child { text-align: left; }
+
+    /* Scorecard */
+    .scorecard { width: 100%; border-collapse: collapse; margin: 0.4rem 0 1.2rem; }
+    .scorecard th {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--text-muted); text-align: left; padding: 0 0.8rem 0.5rem 0;
+      border-bottom: 1px solid var(--divider);
+    }
+    .scorecard td {
+      vertical-align: top; padding: 0.75rem 0.8rem 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;
+    }
+    .scorecard td.sc-where { color: var(--text-primary); font-weight: 500; width: 27%; }
+    .scorecard td.sc-where span { display: block; font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }
+    .scorecard td.sc-read { width: 17%; padding-right: 0; }
+    .sc-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; color: var(--text-secondary); white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 0.1rem 0.45rem;
+    }
+    .sc-tag.sc-strong { color: var(--accent); border-color: rgba(201,168,76,0.45); background: var(--accent-glow); }
+    .scorecard tr.sc-highlight td { background: rgba(201,168,76,0.035); }
+
+    @media (max-width: 640px) {
+      .note-title { font-size: 1.6rem; }
+      .scorecard thead { display: none; }
+      .scorecard, .scorecard tbody, .scorecard tr, .scorecard td { display: block; width: 100% !important; }
+      .scorecard tr { padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .scorecard td { border: none; padding: 0.1rem 0; }
+      .scorecard td.sc-read { padding-top: 0.35rem; }
+      .note-chart { padding: 0.9rem 0.8rem 0.7rem; }
+    }
+  </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QYC99YKQD4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -36,17 +140,235 @@
 
   <p class="bio">
     A growing part of my research studies how artificial intelligence is reshaping the
-    economy &mdash; and how we should measure it. The projects below use task-based exposure
-    measures, large administrative datasets, structural models, and frontier language models
-    to ask where AI's effects show up first: in wages, in credit, in household behaviour, and
-    in the choices people make about their careers. A recurring theme is the gap between
-    <em>exposure</em> and <em>incidence</em> &mdash; what a technology could affect versus where its
-    effects actually land &mdash; and the care needed when using AI itself as a measurement
-    instrument.
+    economy &mdash; and how we should measure it. I use task-based exposure measures, large
+    administrative datasets, structural models, and frontier language models to ask where AI's
+    effects show up first: in credit, in wages, in household behaviour, and in the choices people
+    make about their careers. A recurring theme is the gap between <em>exposure</em> and
+    <em>incidence</em> &mdash; what a technology could affect versus where its effects actually
+    land &mdash; and the care needed when using AI itself as a measurement instrument.
   </p>
   <p class="bio">
-    All of these are work in progress; preliminary drafts are available on request.
+    Below are working notes from an ongoing empirical project, followed by projects in progress.
   </p>
+
+  <h2>Notes</h2>
+
+  <article class="note" id="ai-in-the-data">
+    <p class="note-kicker">September 2026 &middot; Working notes</p>
+    <h3 class="note-title">Where is AI showing up in the data?</h3>
+
+    <p class="note-lede">
+      Since ChatGPT arrived in late 2022, the question I hear most is whether generative AI is
+      already changing the economy. I have looked for it in a dozen places:
+      mortgage and business credit, jobs and wages, job vacancies in three countries, how people
+      spend their time, mental-health care, marriage and births, admission to university programmes,
+      and industry prices. The short version: one signal keeps showing up, in mortgage
+      refinancing. Almost everywhere else, the honest answer is <em>not yet</em>.
+    </p>
+
+    <p class="note-toc">
+      In this note:
+      <a href="#n-measure">Measuring exposure</a> &middot;
+      <a href="#n-credit">The mortgage signal</a> &middot;
+      <a href="#n-scorecard">Where else I looked</a> &middot;
+      <a href="#n-notyet">Why &ldquo;not yet&rdquo; matters</a> &middot;
+      <a href="#n-next">What&rsquo;s next</a>
+    </p>
+
+    <h4 id="n-measure">Measuring exposure</h4>
+    <p>
+      Everything below starts from an AI-exposure score for each occupation: roughly, how much the
+      abilities a job requires overlap with what current AI, and language models in particular, can do. I aggregate these scores to industries and
+      to US counties in two ways &mdash; by <em>where people work</em> (the county's 2019 industry
+      mix) and by <em>where people live</em> (the 2019 occupations of employed residents). The two are
+      less alike than one might expect: across counties they correlate at only about 0.26.
+    </p>
+    <p>
+      Exposure is not adoption, and it is not job loss; it measures where AI <em>could</em> matter.
+      As a check, I compare it with what people actually do with AI, using Google's occupation-level
+      Gemini usage data and Anthropic's Claude usage data. Those usage data were collected in 2026,
+      after most of the outcomes below, so they help validate the measure rather than prove any effect.
+    </p>
+
+    <h4 id="n-credit">The one signal that keeps showing up: mortgage refinancing</h4>
+    <p>
+      The US mortgage data (HMDA) record home-loan applications lender by lender and county by
+      county. Comparing 2019 with 2023&ndash;2025 across about 1.6 million lender-county-year cells,
+      more AI-exposed places see less mortgage lending. That broad pattern is not, by itself, an AI
+      effect: high-exposure counties are large, tech-heavy, remote-work-intensive places whose mortgage
+      markets move with the rate cycle. Once I control for rate sensitivity, local geography and
+      proxies for household balance sheets, the broad gap largely disappears.
+    </p>
+    <p>
+      What survives is a sharper comparison. Within the same county and year, and for the same lender,
+      <strong>refinance lending falls more than purchase lending in more AI-exposed counties</strong>:
+      about 14% fewer refinance loans, relative to purchase loans, per standard deviation of exposure
+      (a Poisson estimate; the 95% interval is roughly 10&ndash;18%). Three things make me take this
+      seriously:
+    </p>
+    <ul>
+      <li>
+        <strong>It survives proxies for the obvious confounder.</strong> Controlling for interest-rate
+        lock-in (each county's 2020&ndash;21 refinancing patterns, plus machine-learning predictions of
+        its rate sensitivity) shrinks the refinance gap by about a third on the transformed-count scale,
+        but it stays clearly negative.
+      </li>
+      <li>
+        <strong>It holds up on revised data.</strong> Re-estimating the core specification on the
+        revised 2024 HMDA file and the 2025 snapshot leaves the estimate essentially unchanged.
+      </li>
+      <li>
+        <strong>Where borrowers live matters.</strong> In separate regressions where both measures
+        enter, the fall in mortgage lending loads mainly on residents' exposure &mdash; the people whose
+        income repays the loan &mdash; rather than on local employers'. A resident measure built from
+        Google's 2026 usage data also predicts lower lending, though only as a check after the fact.
+      </li>
+    </ul>
+
+    <figure class="note-chart" id="refi-chart">
+      <div class="chart-title">Refinance minus purchase lending in more AI-exposed counties</div>
+      <div class="chart-sub">Difference relative to 2019, per standard deviation of county AI exposure (based on the county&rsquo;s industry mix), with 95% confidence intervals. Same lender, same county-year.</div>
+      <div class="chart-plot" aria-hidden="true"></div>
+      <figcaption>
+        High-exposure counties led the 2020&ndash;21 refinancing boom, then led the decline, so the
+        rate cycle is part of this picture. The gap is already negative in 2022 and narrows after 2023,
+        so the timing does not show a clean break at ChatGPT. Units are transformed loan counts (inverse
+        hyperbolic sine): read the shape, not exact percentages.
+      </figcaption>
+      <details>
+        <summary>Show the numbers</summary>
+        <table class="num-table">
+          <thead><tr><th>Year</th><th>Estimate</th><th>95% interval</th></tr></thead>
+          <tbody>
+            <tr><td>2019</td><td>0 (reference)</td><td>&ndash;</td></tr>
+            <tr><td>2020</td><td>+0.082</td><td>+0.066 to +0.098</td></tr>
+            <tr><td>2021</td><td>+0.028</td><td>+0.010 to +0.046</td></tr>
+            <tr><td>2022</td><td>&minus;0.082</td><td>&minus;0.102 to &minus;0.062</td></tr>
+            <tr><td>2023</td><td>&minus;0.153</td><td>&minus;0.181 to &minus;0.126</td></tr>
+            <tr><td>2024</td><td>&minus;0.125</td><td>&minus;0.148 to &minus;0.101</td></tr>
+            <tr><td>2025</td><td>&minus;0.092</td><td>&minus;0.114 to &minus;0.069</td></tr>
+          </tbody>
+        </table>
+      </details>
+    </figure>
+
+    <p>
+      There are also clear limits to what these data can say. Purchase lending barely moves, so this
+      is not a credit crunch. HMDA cannot tell lenders screening more carefully apart from borrowers
+      choosing not to refinance. A narrower story I initially expected &mdash; lenders pulling back
+      from large loans just above the conforming limit (the ceiling for loans Fannie Mae and Freddie
+      Mac can buy) &mdash; did not hold up. And
+      early changes in credit do not reliably predict later unemployment once differences across
+      states are accounted for. The finding is a persistent reallocation of refinancing, not yet
+      evidence that lenders are pricing AI risk.
+    </p>
+
+    <h4 id="n-scorecard">Where else I looked</h4>
+    <table class="scorecard">
+      <thead>
+        <tr><th>Where I looked</th><th>What I found</th><th>Reading</th></tr>
+      </thead>
+      <tbody>
+        <tr class="sc-highlight">
+          <td class="sc-where">Mortgage refinancing<span>HMDA, 2019 vs 2023&ndash;25</span></td>
+          <td>Refinancing falls about 14% relative to purchases per SD of exposure, within lender and county.</td>
+          <td class="sc-read"><span class="sc-tag sc-strong">Persistent</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Small-business loans<span>CRA bank lending</span></td>
+          <td>No fall in total lending; the mix shifts toward firms with revenue of $1 million or less.</td>
+          <td class="sc-read"><span class="sc-tag">Mix, not volume</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Corporate loans<span>Syndicated loans, 10-K text</span></td>
+          <td>Tighter terms at the industry level fade when comparing the same borrower. Firms whose earlier 10-Ks framed AI as a risk pay slightly higher commitment fees, in a small sample.</td>
+          <td class="sc-read"><span class="sc-tag">Conditional</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Jobs and businesses<span>County employment, 2024 Q1 to 2026 Q1</span></td>
+          <td>No detectable change in employment or establishments; large declines are ruled out.</td>
+          <td class="sc-read"><span class="sc-tag">Not yet</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Wages<span>Industry, occupation and county data</span></td>
+          <td>Industry weekly wages about 1.4% lower per SD after allowing for trends; shorter-window checks are weaker, and the county follow-up has the opposite sign.</td>
+          <td class="sc-read"><span class="sc-tag">Mixed</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Unemployment<span>Counties, mid-2025 to mid-2026</span></td>
+          <td>Where residents are more exposed, unemployment rises slightly: about 0.02 percentage points per SD, comparing counties within the same state.</td>
+          <td class="sc-read"><span class="sc-tag">Small</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Job vacancies<span>US, Canada, UK</span></td>
+          <td>The countries disagree: more openings per hire in the US, more vacancies but lower offered wages in Canada, and somewhat fewer vacancies in the UK in some specifications.</td>
+          <td class="sc-read"><span class="sc-tag">Mixed</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Time use<span>American Time Use Survey, to 2025</span></td>
+          <td>No detectable change in work, sleep or care time; about 2.7 fewer minutes a day of leisure computer use per SD.</td>
+          <td class="sc-read"><span class="sc-tag">Exploratory</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Mental-health care<span>National Health Interview Survey</span></td>
+          <td>Therapy use in the past year up about 1.1 percentage points per SD (2024 vs 2021) &mdash; which may reflect seeking care as much as distress.</td>
+          <td class="sc-read"><span class="sc-tag">Exploratory</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Marriage and births<span>American Community Survey</span></td>
+          <td>High-exposure places have lower birth rates, but that gap was already there; changes since 2022 show no pattern, and neither do marriage or divorce.</td>
+          <td class="sc-read"><span class="sc-tag">Not yet</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">University admissions<span>France and Turkey</span></td>
+          <td>An early sign that exposed programmes in Turkey became less selective in one track (and more selective in another) disappears with a finer occupation mapping; no broad avoidance in France.</td>
+          <td class="sc-read"><span class="sc-tag">Fragile</span></td>
+        </tr>
+        <tr>
+          <td class="sc-where">Industry prices<span>Producer prices, 105 industries</span></td>
+          <td>No clear or robust relation between exposure and 2022&ndash;25 producer-price inflation, though moderate effects can&rsquo;t be ruled out.</td>
+          <td class="sc-read"><span class="sc-tag">Not yet</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="n-notyet">Why &ldquo;not yet&rdquo; is still informative</h4>
+    <p>
+      AI can change expected risk much faster than it changes jobs. Tasks can be reorganised in months,
+      while employment, firm counts and household income move slowly &mdash; and credit markets can,
+      in principle, respond to expectations before any of those move. The evidence so far fits that
+      timing, though it cannot show what lenders expected: a signal in refinancing, and little yet in
+      employment, firms or prices. Some of the nulls are also tight enough to be informative in their
+      own right. For county employment growth between early 2024 and early 2026, the estimates rule out
+      declines larger than about half a percent per standard deviation of exposure.
+    </p>
+    <p>
+      A second lesson concerns the exposure scores themselves. A single score treats every exposed task
+      alike, but in a task-based model where AI replaces some work and creates other work inside firms,
+      what matters for wages is <em>which</em> tasks are exposed. Calibrating that model to US
+      industries with O*NET task content and OEWS employment, a single score and the full task profile
+      disagree on the <em>sign</em> of the predicted wage effect in about one industry in nine today,
+      and in roughly 30% of cases in stylised scenarios where AI capabilities become more
+      task-specific. For now, the extra task detail improves the fit to observed industry wages only
+      modestly, and not significantly. If capabilities do diverge, though, a single exposure number
+      would become a less reliable guide to who is affected.
+    </p>
+
+    <h4 id="n-next">What I am watching next</h4>
+    <ul>
+      <li><strong>Loan performance.</strong> Whether the refinancing shift anticipates later
+        delinquencies &mdash; the test that would separate careful screening from realised risk.</li>
+      <li><strong>University placements.</strong> Turkey's 2026 placement results, to see whether
+        early shifts in the selectivity of exposed programmes settle into a pattern.</li>
+      <li><strong>Usage data.</strong> New releases from AI developers that measure adoption
+        directly, rather than exposure.</li>
+    </ul>
+
+    <p class="note-foot">
+      These are working notes, not a paper. Estimates are per standard deviation of AI exposure and
+      are associations, not causal effects. Detailed tables are available on request.
+    </p>
+  </article>
 
   <h2>Projects</h2>
 
@@ -60,30 +382,6 @@
       borrowing under different policy communications &mdash; holding the policy action fixed and
       varying only the narrative around it. The project treats the language model as a social-science
       instrument and is explicit about what simulated responses can and cannot tell us about real behaviour.
-    </div>
-  </div>
-
-  <div class="paper">
-    <div class="paper-title">AI Risk and Credit</div>
-    <div class="paper-meta"><em>Work in progress &middot; preliminary draft available on request</em></div>
-    <div class="abstract open">
-      Do lenders react to AI before labour markets do? I measure how exposed each local economy is
-      to generative AI &mdash; from its mix of industries and the task content of its jobs &mdash; and
-      track mortgage credit within lender relationships. Credit appears to reallocate in a risk-sensitive
-      way ahead of measured changes in employment or income, suggesting financial markets price AI
-      exposure before it surfaces in conventional labour-market statistics.
-    </div>
-  </div>
-
-  <div class="paper">
-    <div class="paper-title">Exposure Maps Are Not Incidence Maps: AI, Organizational Tasks, and Wages</div>
-    <div class="paper-meta"><em>Work in progress &middot; preliminary draft available on request</em></div>
-    <div class="abstract open">
-      A single "AI exposure" score is often used as a stand-in for who will be affected. This project
-      asks when that is justified. Using a task-based model &mdash; calibrated with O*NET task content,
-      OEWS employment, and wage data &mdash; it shows that exposure and wage incidence can diverge
-      sharply once tasks are organised within firms, and characterises when a scalar exposure index is,
-      and is not, a reliable guide to wage effects.
     </div>
   </div>
 
@@ -108,6 +406,133 @@
 <footer>
   Yavuz Arslan · University of Liverpool Management School
 </footer>
+
+<script>
+/* Refinance-minus-purchase event study (HMDA segment design, AIOE-LM, 2019 = reference). */
+(function () {
+  var fig = document.getElementById('refi-chart');
+  if (!fig) return;
+  var plot = fig.querySelector('.chart-plot');
+  var DATA = [
+    { y: 2019, b: 0,       se: 0,      ref: true },
+    { y: 2020, b: 0.0818,  se: 0.0082 },
+    { y: 2021, b: 0.0280,  se: 0.0094 },
+    { y: 2022, b: -0.0822, se: 0.0101 },
+    { y: 2023, b: -0.1532, se: 0.0141 },
+    { y: 2024, b: -0.1247, se: 0.0121 },
+    { y: 2025, b: -0.0917, se: 0.0116 }
+  ];
+  var C = {
+    mark: '#a08636', markHi: '#c9a84c', surface: '#161a22',
+    grid: 'rgba(255,255,255,0.07)', zero: 'rgba(255,255,255,0.22)',
+    text: '#9a9790', muted: '#6b6860', band: 'rgba(255,255,255,0.035)'
+  };
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, parent) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function fmt(v) { return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(3); }
+
+  var tip = document.createElement('div');
+  tip.className = 'chart-tip'; tip.hidden = true;
+  fig.appendChild(tip);
+
+  function draw() {
+    var W = Math.max(280, plot.clientWidth);
+    var narrow = W < 460;
+    var H = narrow ? 250 : 290;
+    var m = { t: 18, r: 14, b: 30, l: narrow ? 44 : 50 };
+    var iw = W - m.l - m.r, ih = H - m.t - m.b;
+    var y0 = -0.20, y1 = 0.12;
+    var x = function (yr) { return m.l + (yr - 2019 + 0.5) / 7 * iw; };
+    var y = function (v) { return m.t + (y1 - v) / (y1 - y0) * ih; };
+
+    plot.innerHTML = '';
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, width: W, height: H, role: 'img',
+      'aria-label': 'Refinance minus purchase lending by year: positive in 2020 and 2021, negative from 2022, lowest in 2023 at minus 0.153.' }, plot);
+
+    // refinancing-boom band (2020-2021)
+    el('rect', { x: x(2020) - iw / 14, y: m.t, width: iw / 7 * 2, height: ih, fill: C.band }, svg);
+    var bl = el('text', { x: x(2020.5), y: m.t + ih - 8, 'text-anchor': 'middle', 'font-size': 11, fill: C.muted }, svg);
+    bl.textContent = narrow ? 'Refi boom' : 'Refinancing boom';
+
+    // gridlines + y ticks
+    [-0.15, -0.10, -0.05, 0, 0.05, 0.10].forEach(function (t) {
+      el('line', { x1: m.l, x2: W - m.r, y1: y(t), y2: y(t), stroke: t === 0 ? C.zero : C.grid, 'stroke-width': 1 }, svg);
+      var tx = el('text', { x: m.l - 8, y: y(t) + 4, 'text-anchor': 'end', 'font-size': 11, fill: C.text }, svg);
+      tx.textContent = t === 0 ? '0' : fmt(t).replace(/0$/, '');
+    });
+
+    // ChatGPT marker (Nov 2022)
+    var cx = x(2022) + iw / 7 * 0.4;
+    el('line', { x1: cx, x2: cx, y1: m.t, y2: m.t + ih, stroke: 'rgba(255,255,255,0.14)', 'stroke-width': 1 }, svg);
+    var cl = el('text', { x: cx + 5, y: y(0.10) + 4, 'font-size': 11, fill: C.muted }, svg);
+    cl.textContent = 'ChatGPT';
+
+    // x labels
+    DATA.forEach(function (d) {
+      var t = el('text', { x: x(d.y), y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: C.text }, svg);
+      t.textContent = narrow ? "'" + String(d.y).slice(2) : d.y;
+    });
+
+    // connecting line
+    var path = DATA.map(function (d, i) { return (i ? 'L' : 'M') + x(d.y) + ' ' + y(d.b); }).join(' ');
+    el('path', { d: path, fill: 'none', stroke: C.mark, 'stroke-width': 2, 'stroke-opacity': 0.55,
+      'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
+
+    // points, CIs, hit targets
+    DATA.forEach(function (d) {
+      var g = el('g', { class: 'pt', tabindex: 0,
+        'aria-label': d.ref ? d.y + ': reference year' : d.y + ': ' + fmt(d.b) + ', 95% interval ' + fmt(d.b - 1.96 * d.se) + ' to ' + fmt(d.b + 1.96 * d.se) }, svg);
+      if (!d.ref) {
+        el('line', { x1: x(d.y), x2: x(d.y), y1: y(d.b - 1.96 * d.se), y2: y(d.b + 1.96 * d.se),
+          stroke: C.mark, 'stroke-width': 2, 'stroke-linecap': 'round' }, g);
+      }
+      el('circle', { class: 'ring', cx: x(d.y), cy: y(d.b), r: 5.5,
+        fill: d.ref ? C.surface : C.mark, stroke: d.ref ? C.mark : C.surface, 'stroke-width': 2 }, g);
+      el('rect', { x: x(d.y) - iw / 14, y: m.t, width: iw / 7, height: ih, fill: 'transparent' }, g);
+
+      function show() {
+        tip.innerHTML = d.ref
+          ? '<strong>' + d.y + '</strong> <span class="tip-muted">reference year</span>'
+          : '<strong>' + d.y + '</strong> &nbsp;' + fmt(d.b) +
+            '<br><span class="tip-muted">95% interval ' + fmt(d.b - 1.96 * d.se) + ' to ' + fmt(d.b + 1.96 * d.se) + '</span>';
+        tip.hidden = false;
+        var pr = plot.getBoundingClientRect(), fr = fig.getBoundingClientRect();
+        var left = pr.left - fr.left + x(d.y) - tip.offsetWidth / 2;
+        left = Math.max(6, Math.min(left, fr.width - tip.offsetWidth - 6));
+        var top = pr.top - fr.top + y(d.b) - tip.offsetHeight - 14;
+        if (top < 4) top = pr.top - fr.top + y(d.b) + 16;
+        tip.style.left = left + 'px'; tip.style.top = top + 'px';
+      }
+      function hide() { tip.hidden = true; }
+      g.addEventListener('mouseenter', show);
+      g.addEventListener('mouseleave', hide);
+      g.addEventListener('focus', show);
+      g.addEventListener('blur', hide);
+      g.addEventListener('touchstart', show, { passive: true });
+    });
+
+    // selective direct label: the trough
+    var lo = DATA[4];
+    var lab = el('text', { x: x(lo.y), y: y(lo.b - 1.96 * lo.se) + 14, 'text-anchor': 'middle', 'font-size': 11.5, 'font-weight': 600, fill: '#e8e6e1',
+      stroke: C.surface, 'stroke-width': 4, 'paint-order': 'stroke', 'stroke-linejoin': 'round' }, svg);
+    lab.textContent = fmt(lo.b);
+  }
+
+  var lastW = 0;
+  function redraw() {
+    var w = plot.clientWidth;
+    if (w && Math.abs(w - lastW) > 1) { lastW = w; tip.hidden = true; draw(); }
+  }
+  redraw();
+  if (window.ResizeObserver) new ResizeObserver(redraw).observe(plot);
+  else window.addEventListener('resize', redraw);
+})();
+</script>
 
 </body>
 </html>
